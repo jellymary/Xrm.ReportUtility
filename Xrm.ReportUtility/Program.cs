@@ -13,8 +13,6 @@ namespace Xrm.ReportUtility
         // "Files/table.txt" -data -weightSum -costSum -withIndex -withTotalVolume
         public static void Main(string[] args)
         {
-//            args = new[] {"Files/table.txt", "-data", "-weightSum", "-costSum"};
-            args = new[] {"Files/table.txt", "-data", "-weightSum", "-costSum", "-withIndex", "-withTotalVolume", "-withTotalWeight"};
             var service = GetReportService(args);
 
             var report = service.CreateReport();
