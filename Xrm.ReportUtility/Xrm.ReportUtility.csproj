@@ -48,6 +48,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="BuilderPattern\ReportBuilder.cs" />
     <Compile Include="Infrastructure\Transformers\Abstract\ReportServiceTransformerBase.cs" />
     <Compile Include="Infrastructure\Transformers\DataTransformer.cs" />
     <Compile Include="Infrastructure\Transformers\VolumeSumReportTransformer.cs" />
@@ -74,7 +75,6 @@
     <None Include="App.config" />
     <None Include="packages.config" />
   </ItemGroup>
-  <ItemGroup />
   <ItemGroup>
     <None Include="Files\table.csv">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>

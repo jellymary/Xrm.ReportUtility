@@ -6,6 +6,9 @@
       <e p="Xrm.ReportUtility" t="IncludeRecursive">
         <e p="App.config" t="Include" />
         <e p="bin" t="ExcludeRecursive" />
+        <e p="BuilderPattern" t="Include">
+          <e p="ReportBuilder.cs" t="Include" />
+        </e>
         <e p="Files" t="Include">
           <e p="table.csv" t="Include" />
           <e p="table.txt" t="Include" />

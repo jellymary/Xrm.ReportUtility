@@ -1,5 +1,5 @@
-/Xrm.ReportUtility/bin/
-/Xrm.ReportUtility/obj/
+/bin/
+/obj/
 /packages/
 
 .idea/

@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
+using Xrm.ReportUtility.BuilderPattern;
 using Xrm.ReportUtility.Interfaces;
 using Xrm.ReportUtility.Models;
 using Xrm.ReportUtility.Services;
@@ -11,7 +13,8 @@ namespace Xrm.ReportUtility
         // "Files/table.txt" -data -weightSum -costSum -withIndex -withTotalVolume
         public static void Main(string[] args)
         {
-            args = new[] {"Files/table.txt", "-data", "-weightSum", "-costSum", "-withIndex", "-withTotalVolume"};
+//            args = new[] {"Files/table.txt", "-data", "-weightSum", "-costSum"};
+            args = new[] {"Files/table.txt", "-data", "-weightSum", "-costSum", "-withIndex", "-withTotalVolume", "-withTotalWeight"};
             var service = GetReportService(args);
 
             var report = service.CreateReport();
@@ -49,31 +52,28 @@ namespace Xrm.ReportUtility
         {
             if (report.Config.WithData && report.Data != null && report.Data.Any())
             {
-                var headerRow = "Наименование\tОбъём упаковки\tМасса упаковки\tСтоимость\tКоличество";
-                var rowTemplate = "{1,12}\t{2,14}\t{3,14}\t{4,9}\t{5,10}";
+                var columnNames = new List<string> {"Наименование", "Объём упаковки", "Масса упаковки", "Стоимость", "Количество"};
+                var reportBuilder = new ReportBuilder(columnNames);
 
                 if (report.Config.WithIndex)
                 {
-                    headerRow = "№\t" + headerRow;
-                    rowTemplate = "{0}\t" + rowTemplate;
+                    reportBuilder.AddColumn("№", 0);
                 }
                 if (report.Config.WithTotalVolume)
                 {
-                    headerRow = headerRow + "\tСуммарный объём";
-                    rowTemplate = rowTemplate + "\t{6,15}";
+                    reportBuilder.AddColumn("Суммарный объём", 6);
                 }
                 if (report.Config.WithTotalWeight)
                 {
-                    headerRow = headerRow + "\tСуммарный вес";
-                    rowTemplate = rowTemplate + "\t{7,13}";
+                    reportBuilder.AddColumn("Суммарный вес", 7);
                 }
 
-                Console.WriteLine(headerRow);
+                Console.WriteLine(reportBuilder.GetHeaderRow());
 
                 for (var i = 0; i < report.Data.Length; i++)
                 {
                     var dataRow = report.Data[i];
-                    Console.WriteLine(rowTemplate, i + 1, dataRow.Name, dataRow.Volume, dataRow.Weight, dataRow.Cost, dataRow.Count, dataRow.Volume * dataRow.Count, dataRow.Weight * dataRow.Count);
+                    Console.WriteLine(reportBuilder.GetRowTemplate(), i + 1, dataRow.Name, dataRow.Volume, dataRow.Weight, dataRow.Cost, dataRow.Count, dataRow.Volume * dataRow.Count, dataRow.Weight * dataRow.Count);
                 }
 
                 Console.WriteLine();
